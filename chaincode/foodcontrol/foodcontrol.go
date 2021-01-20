@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
+//me abstrae del modulo stub, que me permite interactuar con el 
+//ledger, me proporciona un patron de diseño de s-c
 
 // SmartContract provides functions for control the food
 type SmartContract struct {
