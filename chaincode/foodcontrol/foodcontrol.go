@@ -18,12 +18,17 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
+//defino una estructura muy basica de un activo llamado Food que tiene 
+//dos propiedades
 //Food describes basic details of what makes up a food
+// puede crearse una estructura que sea parte de otra estructura si las
+//propiedades son muy complejas
 type Food struct {
 	Farmer  string `json:"farmer"`
 	Variety string `json:"variety"`
 }
 
+// la funcion es parte de la struct SmartContract
 func (s *SmartContract) Set(ctx contractapi.TransactionContextInterface, foodId string, farmer string, variety string) error {
 
 	//Validaciones de sintaxis
@@ -34,15 +39,19 @@ func (s *SmartContract) Set(ctx contractapi.TransactionContextInterface, foodId 
 		Farmer:  farmer,
 		Variety: variety,
 	}
-
+	//transformo a bytes el elemento food
 	foodAsBytes, err := json.Marshal(food)
 	if err != nil {
 		fmt.Printf("Marshal error: %s", err.Error())
 		return err
 	}
-
+	//llamamos al elemento  getstub que tiene un elemento putstate que 
+	//me permite guardar en el ledger
 	return ctx.GetStub().PutState(foodId, foodAsBytes)
+	//clave foodID y el valor es el conjunto de bytes
 }
+//y ya tenemos la funcion que nos permite guardar en la blockchain
+
 
 func (s *SmartContract) Query(ctx contractapi.TransactionContextInterface, foodId string) (*Food, error) {
 
